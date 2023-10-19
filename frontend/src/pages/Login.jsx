@@ -1,16 +1,13 @@
-import { useRef } from "react";
+import { useState } from "react";
 
 import Input from "../components/shared/Input";
 import AnimatedButton from "../components/shared/AnimatedButton";
 
 const Login = () => {
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const loginHandler = (event) => {
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
-
     event.preventDefault();
   };
 
@@ -21,13 +18,15 @@ const Login = () => {
         <form className="text-center">
           <Input
             label="Email"
-            ref={emailRef}
+            value={email}
+            setValue={setEmail}
             type="email"
             additionalClass="my-6"
           />
           <Input
             label="Password"
-            ref={passwordRef}
+            value={password}
+            setValue={setPassword}
             type="password"
             additionalClass="my-6"
           />
