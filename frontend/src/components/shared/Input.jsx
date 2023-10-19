@@ -1,18 +1,20 @@
 const Input = ({
   className,
   label,
-  onChange,
-  ref,
   value,
   type,
   additionalClass,
+  setValue,
 }) => {
+  const onChangeHandler = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className={`relative w-full ${additionalClass}`}>
       <input
         className={className}
-        onChange={onChange}
-        ref={ref}
+        onChange={onChangeHandler}
         type={type}
         value={value}
       />
