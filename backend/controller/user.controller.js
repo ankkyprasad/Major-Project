@@ -33,7 +33,10 @@ exports.login = async (req, res) => {
 
     return res.status(200).json({
       status: "login successful",
-      signature,
+      data: {
+        signature,
+        user,
+      },
     });
   } catch (err) {
     res.status(500).json({
@@ -82,11 +85,24 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.logout = async (req, res) => {
-  try {
-    const user = req.user;
+exports.tokenStatus = async (req, res) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      user: req.user,
+    },
+  });
+};
 
-    // add token to a new table
+exports.logout = async (req, res) => {
+  const signature = req.body.signature;
+
+  try {
+    await prisma.blacklistToken.create({
+      data: {
+        token: signature,
+      },
+    });
 
     return res.status(200).send({
       status: "success",

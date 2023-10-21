@@ -4,8 +4,10 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { saveCryptoKeys } = require("./utils/crypto");
+const { PrismaClient } = require("@prisma/client");
 
 const app = express();
+const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
@@ -19,5 +21,7 @@ app.listen(PORT, async (err) => {
   if (err) throw err;
 
   saveCryptoKeys();
+  await prisma.blacklistToken.deleteMany({});
+
   console.log(`http://localhost:${PORT}`);
 });
