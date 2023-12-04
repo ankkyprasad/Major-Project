@@ -8,7 +8,7 @@ const useRedirectIfLoggedIn = () => {
 
   useEffect(() => {
     if (userState.isLoggedIn) {
-      navigate("/");
+      navigate("/user-dashboard");
     }
   }, [userState.isLoggedIn, navigate]);
 };
