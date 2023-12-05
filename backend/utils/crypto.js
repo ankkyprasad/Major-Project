@@ -14,10 +14,32 @@ const getCryptoLibrary = () => {
   return require("falcon-crypto");
 };
 
-const saveCryptoKeys = async () => {
+const generateKeyPair = async () => {
   const keyPair = await getCryptoLibrary().keyPair();
-  process.env.CRYPTO_PRIVATE_KEY = decodeKey(keyPair.privateKey);
-  process.env.CRYPTO_PUBLIC_KEY = decodeKey(keyPair.publicKey);
+  return {
+    publicKey: decodeKey(keyPair.publicKey),
+    privateKey: decodeKey(keyPair.privateKey),
+  };
 };
 
-module.exports = { getCryptoLibrary, saveCryptoKeys };
+const generateRawKeyPair = async () => {
+  const keyPair = await getCryptoLibrary().keyPair();
+  return {
+    publicKey: keyPair.publicKey,
+    privateKey: keyPair.privateKey,
+  };
+};
+
+const saveCryptoKeys = async () => {
+  const { privateKey, publicKey } = await generateKeyPair();
+
+  process.env.CRYPTO_PRIVATE_KEY = privateKey;
+  process.env.CRYPTO_PUBLIC_KEY = publicKey;
+};
+
+module.exports = {
+  getCryptoLibrary,
+  saveCryptoKeys,
+  generateKeyPair,
+  generateRawKeyPair,
+};

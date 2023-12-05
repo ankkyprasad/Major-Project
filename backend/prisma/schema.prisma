@@ -17,6 +17,8 @@ model User {
   password  String
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  KeyPair   KeyPair?
+  File      File[]
 
   @@index(fields: [email])
   @@map("users")
@@ -30,4 +32,27 @@ model BlacklistToken {
 
   @@index([token(length: 500)], name: "token")
   @@map("blacklist_tokens")
+}
+
+model KeyPair {
+  id         Int      @id @default(autoincrement())
+  privateKey Bytes
+  publicKey  Bytes
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  userId     Int      @unique
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@map("key_pairs")
+}
+
+model File {
+  id           Int      @id @default(autoincrement())
+  originalName String   @default("")
+  uniqueName   String   @unique
+  buffer       Bytes
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 }

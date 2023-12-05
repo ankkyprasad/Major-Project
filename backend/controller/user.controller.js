@@ -2,6 +2,7 @@ const date = new Date();
 const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcrypt");
 const auth = require("../utils/auth");
+const { generateRawKeyPair } = require("../utils/crypto");
 
 const prisma = new PrismaClient();
 
@@ -70,6 +71,15 @@ exports.register = async (req, res) => {
         name,
         email,
         password: hashedPassword,
+      },
+    });
+
+    const { publicKey, privateKey } = await generateRawKeyPair();
+    await prisma.keyPair.create({
+      data: {
+        publicKey: publicKey,
+        privateKey: privateKey,
+        userId: newUser.id,
       },
     });
 

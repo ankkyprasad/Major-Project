@@ -15,6 +15,7 @@ app.use(bodyParser.json({ limit: "100mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: false }));
 
 app.use("/api/v1/users", require("./routes/user.routes"));
+app.use("/api/v1/file", require("./routes/file.routes"));
 app.use("/api/v1", require("./routes/index.routes"));
 
 app.listen(PORT, async (err) => {

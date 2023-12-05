@@ -33,6 +33,9 @@ exports.isAuthenticated = async (req, res, next) => {
       where: {
         id: payload.id,
       },
+      include: {
+        KeyPair: true,
+      },
     });
 
     if (!user) {
