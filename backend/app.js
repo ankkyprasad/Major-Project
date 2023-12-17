@@ -5,6 +5,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const { saveCryptoKeys } = require("./utils/crypto");
 const { PrismaClient } = require("@prisma/client");
+const { morganStream, calculateResponseBodySize } = require("./utils/morgan");
 
 const app = express();
 const prisma = new PrismaClient();
@@ -14,8 +15,11 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(bodyParser.json({ limit: "100mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: false }));
 
+app.use(calculateResponseBodySize);
+app.use(morganStream);
+
 app.use("/api/v1/users", require("./routes/user.routes"));
-app.use("/api/v1/file", require("./routes/file.routes"));
+app.use("/api/v1/files", require("./routes/file.routes"));
 app.use("/api/v1", require("./routes/index.routes"));
 
 app.listen(PORT, async (err) => {
