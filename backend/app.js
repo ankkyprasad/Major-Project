@@ -22,6 +22,9 @@ app.use("/api/v1/users", require("./routes/user.routes"));
 app.use("/api/v1/files", require("./routes/file.routes"));
 app.use("/api/v1", require("./routes/index.routes"));
 
+app.use("/api/v1/admin/users", require("./routes/admin/user.routes"));
+app.use("/api/v1/admin/files", require("./routes/admin/file.routes"));
+
 app.listen(PORT, async (err) => {
   if (err) throw err;
 

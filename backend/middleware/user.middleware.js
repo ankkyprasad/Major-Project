@@ -53,3 +53,22 @@ exports.isAuthenticated = async (req, res, next) => {
     });
   }
 };
+
+exports.isAdmin = (req, res, next) => {
+  try {
+    const user = req.user;
+
+    if (user.role != "ADMIN")
+      return res.status(401).json({
+        status: "unauthorized",
+        message: "You do not have admin access",
+      });
+
+    next();
+  } catch (err) {
+    res.status(500).json({
+      status: "internal server error",
+      message: err.message,
+    });
+  }
+};

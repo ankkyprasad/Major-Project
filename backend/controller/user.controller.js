@@ -96,7 +96,7 @@ exports.register = async (req, res) => {
 };
 
 exports.tokenStatus = async (req, res) => {
-  var user = { ...req.user };
+  let user = { ...req.user };
   delete user["KeyPair"];
 
   res.status(200).json({
